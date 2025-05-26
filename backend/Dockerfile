@@ -2,6 +2,8 @@
 FROM node:23.4.0-slim AS builder
 WORKDIR /app
 
+RUN apt-get update -y && apt-get install -y openssl
+
 # Copia apenas os arquivos de dependências
 COPY package.json package-lock.json ./
 
@@ -20,6 +22,8 @@ RUN npm run build
 # Etapa de produção
 FROM node:23.4.0-slim AS runner
 WORKDIR /app
+
+RUN apt-get update -y && apt-get install -y openssl
 
 # Copia apenas os arquivos necessários para produção
 COPY package.json package-lock.json ./
