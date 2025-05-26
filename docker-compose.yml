@@ -1,4 +1,15 @@
 services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   backend:
     build:
       context: ./backend
@@ -8,12 +19,13 @@ services:
     container_name: restaurant-backend
     ports:
       - "7001:3001"
-    volumes:
-      - sqlite_data:/app/prisma
     environment:
       NODE_ENV: production
       API_KEY: ${API_KEY}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    depends_on:
+      - db
     restart: unless-stopped
 
   frontend:
@@ -32,4 +44,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  sqlite_data:
+  postgres_data:

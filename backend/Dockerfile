@@ -2,49 +2,41 @@
 FROM node:23.4.0-slim AS builder
 WORKDIR /app
 
+# instalar dependências
 RUN apt-get update -y && apt-get install -y openssl
-
-# Copia apenas os arquivos de dependências
 COPY package.json package-lock.json ./
-
-# Instala dependências de desenvolvimento
 RUN npm ci
 
-# Copia o restante do código
+# copiar código e gerar client
 COPY . .
-
-# Gera o Prisma Client
+ENV DATABASE_URL=${DATABASE_URL}
 RUN npx prisma generate
 
-RUN npx prisma db push
-
-# Faz o build do projeto
+# build da aplicação
 RUN npm run build
 
 # Etapa de produção
 FROM node:23.4.0-slim AS runner
 WORKDIR /app
 
+# instalar só prod deps
 RUN apt-get update -y && apt-get install -y openssl
-
-# Copia apenas os arquivos necessários para produção
 COPY package.json package-lock.json ./
-
-# Instala apenas as dependências de produção
 RUN npm ci --only=production
 
-# Copia o build e o Prisma Client da etapa de build
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
+# copiar build, client e migrations
+COPY --from=builder /app/dist        ./dist
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma      ./prisma
 
+# vars de ambiente
 ENV NODE_ENV=production
-
 ARG API_KEY
 ARG ANTHROPIC_API_KEY
+ARG DATABASE_URL
 ENV API_KEY=${API_KEY} \
-    ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} \
+    DATABASE_URL=${DATABASE_URL}
 
 EXPOSE 3001
-
 CMD ["node", "dist/src/main.js"]
