@@ -21,9 +21,6 @@ RUN npm run build
 FROM node:23.4.0-slim AS runner
 WORKDIR /app
 
-# Cria usuário não-root
-RUN addgroup -S app && adduser -S -G app app
-
 # Copia apenas os arquivos necessários para produção
 COPY package.json package-lock.json ./
 
@@ -35,7 +32,6 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules ./node_modules
 
-USER app
 ENV NODE_ENV=production
 
 ARG API_KEY
