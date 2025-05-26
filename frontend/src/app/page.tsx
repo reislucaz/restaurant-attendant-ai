@@ -1,6 +1,7 @@
 import { MessageSquare } from "lucide-react";
 import { Metadata } from "next";
 import ChatMessages, { NewChatButton } from "@/components/chat/chat-messages";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Atendimento Virtual",
@@ -25,7 +26,9 @@ export default function HomePage() {
           <NewChatButton />
         </div>
       </div>
-      <ChatMessages />
+      <Suspense fallback={<div>Carregando...</div>}>
+        <ChatMessages />
+      </Suspense>
     </div>
   );
 }
