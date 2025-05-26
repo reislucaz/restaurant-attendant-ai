@@ -22,4 +22,4 @@ ENV API_KEY=${API_KEY}
 ENV ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
 
 EXPOSE 3001
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]
