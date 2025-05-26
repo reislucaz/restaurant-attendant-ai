@@ -2,9 +2,6 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-RUN apk add --no-cache openssl
-
-
 # Copia apenas os arquivos de dependências
 COPY package.json package-lock.json ./
 
@@ -23,6 +20,8 @@ RUN npm run build
 # Etapa de produção
 FROM node:20-alpine AS runner
 WORKDIR /app
+
+RUN apk add --no-cache openssl
 
 # Cria usuário não-root
 RUN addgroup -S app && adduser -S -G app app
