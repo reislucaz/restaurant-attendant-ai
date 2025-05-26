@@ -25,8 +25,8 @@ ANTHROPIC_API_KEY=sua_anthropic_key
 docker compose up --build
 ```
 
-- O backend estará disponível em http://localhost:3001
-- O frontend estará disponível em http://localhost:3000
+- O backend estará disponível em http://localhost:7001
+- O frontend estará disponível em http://localhost:7000
 
 > O frontend se comunica com o backend usando a variável `NEXT_PUBLIC_API_URL` já configurada no compose.
 
