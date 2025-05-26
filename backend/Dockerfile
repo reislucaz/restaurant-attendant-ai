@@ -1,5 +1,5 @@
 # Etapa de build
-FROM node:20-alpine3.16 AS builder
+FROM node:23.4.0-slim AS builder
 WORKDIR /app
 
 # Copia apenas os arquivos de dependências
@@ -18,7 +18,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Etapa de produção
-FROM node:20-alpine3.16 AS runner
+FROM node:23.4.0-slim AS runner
 WORKDIR /app
 
 # Cria usuário não-root
