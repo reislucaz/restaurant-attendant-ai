@@ -12,8 +12,10 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY package*.json ./
 
+RUN npx prisma generate
+
 ENV NODE_ENV=production
 
 EXPOSE 3001
 
-CMD npx prisma migrate deploy && node dist/main 
+CMD node dist/main 
