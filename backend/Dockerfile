@@ -2,6 +2,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+RUN apk add --no-cache openssl
+
+
 # Copia apenas os arquivos de dependências
 COPY package.json package-lock.json ./
 
