@@ -15,6 +15,7 @@ Este repositório contém uma solução completa para atendimento virtual de res
 Você pode criar um arquivo `.env` na raiz do projeto com as variáveis necessárias para o backend:
 
 ```env
+DATABASE_URL=database_url_postgres
 API_KEY=sua_api_key
 ANTHROPIC_API_KEY=sua_anthropic_key
 ```
