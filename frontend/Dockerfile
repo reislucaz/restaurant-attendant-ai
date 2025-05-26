@@ -14,6 +14,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/next.config.ts ./
 
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 EXPOSE 3000
 
