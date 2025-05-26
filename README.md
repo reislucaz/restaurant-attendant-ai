@@ -19,6 +19,11 @@ API_KEY=sua_api_key
 ANTHROPIC_API_KEY=sua_anthropic_key
 ```
 
+Para o frontend, é necessário apenas definir NEXT_PUBLIC_API_URL.
+```env
+NEXT_PUBLIC_API_URL=sua_url_da_api
+```
+
 2. **Suba os containers**
 
 ```bash
@@ -28,7 +33,7 @@ docker compose up --build
 - O backend estará disponível em http://localhost:7001
 - O frontend estará disponível em http://localhost:7000
 
-> O frontend se comunica com o backend usando a variável `NEXT_PUBLIC_API_URL` já configurada no compose.
+> O frontend se comunica com o backend usando a variável `NEXT_PUBLIC_API_URL`
 
 ## Documentação detalhada
 
